@@ -1,0 +1,12 @@
+﻿CREATE TRIGGER TR_DeleteFromSecondaryOnMainUpdate
+ON property_for_sale
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;    
+    -- אם העמודה המקשרת נקראת MainId בטבלה המשנית ו-Id בטבלה הראשית
+    DELETE FROM favorite_properties
+    WHERE property_id IN (SELECT property_id FROM inserted);
+END
+
+drop trigger TR_DeleteFromSecondaryOnMainUpdate
